@@ -73,6 +73,23 @@ async function run() {
         res.send(result)
   
       });
+
+      //updateOne route created
+    app.put('/products/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateInfo = req.body;
+      const updateField = {
+        $set: {
+          price: updateInfo.price,
+          quantity: updateInfo.quantity,
+          description: updateInfo.description
+        }
+      };
+      const result = await myColl.updateOne(query, updateField, options);
+      res.send(result);
+    });
   
 
 
