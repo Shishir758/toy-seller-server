@@ -25,8 +25,7 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-
-
+    
     const myDB = client.db("myDB");
     const myColl = myDB.collection("products");
 
@@ -48,8 +47,6 @@ async function run() {
       res.send(result);
     });
 
-
-
     //email access route created
     app.get('/products/:email', async (req, res) => {
       console.log(req.params.email);
@@ -57,24 +54,23 @@ async function run() {
       res.send(result)
     })
 
-
-     //all data fetch route created
-     app.get('/products', async (req, res) => {
+    //all data fetch route created
+    app.get('/products', async (req, res) => {
       const cursor = myColl.find()
       const result = await cursor.toArray();
       res.send(result);
     })
 
-      //get data by id route created
-      app.get("/products/:id", async (req, res) => {
-        const id = req.params.id;
-        const query = { _id: new ObjectId(id) }
-        const result = await myColl.findOne(query);
-        res.send(result)
-  
-      });
+    //get data by id route created
+    app.get("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await myColl.findOne(query);
+      res.send(result)
 
-      //updateOne route created
+    });
+
+    //updateOne route created
     app.put('/products/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
@@ -90,27 +86,22 @@ async function run() {
       const result = await myColl.updateOne(query, updateField, options);
       res.send(result);
     });
-  
 
-      //deletedOne route created
-      app.delete('/products/:id', async (req, res) => {
-        const id = req.params.id;
-        const query = { _id: new ObjectId(id) }
-        const result = await myColl.deleteOne(query);
-        res.send(result)
-      })
+    //deletedOne route created
+    app.delete('/products/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await myColl.deleteOne(query);
+      res.send(result)
+    })
 
-
-       //InsertOne route created
+    //InsertOne route created
     app.post('/products', async (req, res) => {
       const toy = req.body;
       const result = await myColl.insertOne(toy);
       console.log(result);
 
     })
-
-  
-
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -121,8 +112,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
 
 app.get('/', (req, res) => {
   res.send('running .................')
