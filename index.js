@@ -30,18 +30,18 @@ async function run() {
     const myDB = client.db("myDB");
     const myColl = myDB.collection("products");
 
-     // Creating index on two fields
-     const indexKeys = { name: 1 }; // Replace field1 and field2 with your actual field names
-     const indexOptions = { name1: "toyname" }; // Replace index_name with the desired index name
-     const result = await myColl.createIndex(indexKeys, indexOptions);
+    // Creating index on two fields
+    const indexKeys = { name: 1 }; // Replace field1 and field2 with your actual field names
+    const indexOptions = { name1: "toyname" }; // Replace index_name with the desired index name
+    const result = await myColl.createIndex(indexKeys, indexOptions);
 
-     app.get("/searchToy/:text", async (req, res) => {
+    app.get("/searchToy/:text", async (req, res) => {
       const searchText = req.params.text;
       const result = await myColl
         .find({
           $or: [
             { name: { $regex: searchText, $options: "i" } },
-           
+
           ],
         })
         .toArray();
@@ -50,9 +50,14 @@ async function run() {
 
 
 
+    //email access route created
+    app.get('/products/:email', async (req, res) => {
+      console.log(req.params.email);
+      const result = await myColl.find({ sellerEmail: req.params.email }).toArray();
+      res.send(result)
+    })
 
 
-    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
