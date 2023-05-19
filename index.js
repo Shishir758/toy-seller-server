@@ -25,7 +25,7 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    
+
     const myDB = client.db("myDB");
     const myColl = myDB.collection("products");
 
@@ -49,7 +49,6 @@ async function run() {
 
     //email access route created
     app.get('/products/:email', async (req, res) => {
-      console.log(req.params.email);
       const result = await myColl.find({ sellerEmail: req.params.email }).toArray();
       res.send(result)
     })
@@ -99,8 +98,6 @@ async function run() {
     app.post('/products', async (req, res) => {
       const toy = req.body;
       const result = await myColl.insertOne(toy);
-      console.log(result);
-
     })
 
     // Send a ping to confirm a successful connection
