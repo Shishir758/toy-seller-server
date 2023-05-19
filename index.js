@@ -99,6 +99,16 @@ async function run() {
         const result = await myColl.deleteOne(query);
         res.send(result)
       })
+
+
+       //InsertOne route created
+    app.post('/products', async (req, res) => {
+      const toy = req.body;
+      const result = await myColl.insertOne(toy);
+      console.log(result);
+
+    })
+
   
 
 
