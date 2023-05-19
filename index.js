@@ -65,6 +65,16 @@ async function run() {
       res.send(result);
     })
 
+      //get data by id route created
+      app.get("/products/:id", async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const result = await myColl.findOne(query);
+        res.send(result)
+  
+      });
+  
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
