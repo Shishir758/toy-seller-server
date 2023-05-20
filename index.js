@@ -24,15 +24,15 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const myDB = client.db("myDB");
     const myColl = myDB.collection("products");
 
     // Creating index on two fields
-    const indexKeys = { name: 1 }; // Replace field1 and field2 with your actual field names
-    const indexOptions = { name1: "toyname" }; // Replace index_name with the desired index name
-    const result = await myColl.createIndex(indexKeys, indexOptions);
+    // const indexKeys = { name: 1 }; // Replace field1 and field2 with your actual field names
+    // const indexOptions = { name1: "toyname" }; // Replace index_name with the desired index name
+    // const result = await myColl.createIndex(indexKeys, indexOptions);
 
     app.get("/searchToy/:text", async (req, res) => {
       const searchText = req.params.text;
@@ -44,20 +44,20 @@ async function run() {
           ],
         })
         .toArray();
-      res.send(result);
+      res.json(result);
     });
 
     //email access route created
     app.get('/products/:email', async (req, res) => {
       const result = await myColl.find({ sellerEmail: req.params.email }).toArray();
-      res.send(result)
+      res.json(result)
     })
 
     //all data fetch route created
     app.get('/products', async (req, res) => {
       const cursor = myColl.find()
       const result = await cursor.toArray();
-      res.send(result);
+      res.json(result);
     })
 
     //get data by id route created
@@ -65,7 +65,7 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
       const result = await myColl.findOne(query);
-      res.send(result)
+      res.json(result)
 
     });
 
@@ -83,7 +83,7 @@ async function run() {
         }
       };
       const result = await myColl.updateOne(query, updateField, options);
-      res.send(result);
+      res.json(result);
     });
 
     //deletedOne route created
@@ -91,7 +91,7 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
       const result = await myColl.deleteOne(query);
-      res.send(result)
+      res.json(result)
     })
 
     //InsertOne route created
