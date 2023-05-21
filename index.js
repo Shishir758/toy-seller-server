@@ -59,6 +59,17 @@ async function run() {
       res.json(result);
     })
 
+    app.get('/sortAsc', async (req, res) => {
+      const result = await myColl.find().sort({ price: 1 }).toArray();;
+      res.json(result);
+    })
+    app.get('/sortDsc', async (req, res) => {
+      const result = await myColl.find().sort({ price: -1 }).toArray();;
+      res.json(result);
+    })
+
+
+
     //get data by id route created
     app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
