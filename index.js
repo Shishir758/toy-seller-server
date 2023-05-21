@@ -55,8 +55,7 @@ async function run() {
 
     //all data fetch route created
     app.get('/products', async (req, res) => {
-      const cursor = myColl.find()
-      const result = await cursor.toArray();
+      const result = await myColl.find().limit(20).toArray();
       res.json(result);
     })
 
